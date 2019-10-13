@@ -7,9 +7,13 @@ class GUI:
         self.background_image=tkinter.PhotoImage('~/WheresTheISS/img/map.gif')
         self.background_label = tkinter.Label(image=self.background_image)
         self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
-        self.findbutton = tkinter.Button(self.main_window, text='Find it!', command=self.do_something)
+        self.findbutton = tkinter.Button(self.main_window, text='Find it!', 
+                                         fg='white', bg='blue', 
+                                         command=self.do_something)
         self.findbutton.pack()
-        self.quitbutton = tkinter.Button(self.main_window, text='Quit', command=self.main_window.destroy)
+        self.quitbutton = tkinter.Button(self.main_window, text='Quit', 
+                                         fg='white', bg='blue', 
+                                         command=self.main_window.destroy)
         self.quitbutton.pack()
         self.top_frame = tkinter.Frame(self.main_window)
         self.bottom_frame = tkinter.Frame(self.main_window)
@@ -26,5 +30,8 @@ class GUI:
         tkinter.messagebox.showinfo('Response', 'The ISS was found at: ')
 
 gui = GUI()
+gui.main_window.title("Where is the ISS?")
+gui.main_window.maxsize(1000, 400)
+gui.mainloop()
 
 
