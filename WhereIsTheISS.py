@@ -25,10 +25,15 @@ print("Longitude: ", lon)
 screen = turtle.Screen()
 screen.setup(1080, 480)
 screen.setworldcoordinates(-180, -90, 180, 90)
-screen.bgpic('/home/neb/PythonProjects/WheresTheISS/map.gif')
-screen.register_shape('/home/neb/PythonProjects/WheresTheISS/satellite-sml.gif')
+
+# AM changed to reflect local path of map and satellite images
+screen.bgpic('img/map.gif')
+# screen.bgpic('/home/neb/PythonProjects/WheresTheISS/map.gif')
+screen.register_shape('img/satellite-sml.gif')
+# screen.register_shape('/home/neb/PythonProjects/WheresTheISS/satellite-sml.gif')
 iss = turtle.Turtle()
-iss.shape('/home/neb/PythonProjects/WheresTheISS/satellite-sml.gif')
+iss.shape('img/satellite-sml.gif')
+# iss.shape('/home/neb/PythonProjects/WheresTheISS/satellite-sml.gif')
 iss.setheading(90)
 
 #place turtle at current ISS location
@@ -36,17 +41,35 @@ iss.penup()
 iss.goto(float(lon), float(lat))
 
 #find next overhead pass of location (lat, lon) and print it to the console
-lat = -72
-lon = 41
+# lat = -72
+# lon = 41
 url = "http://api.open-notify.org/iss-pass.json"
-url = url +"?lat="+str(lat)+"&lon="+str(lon)
-response = urllib.request.urlopen(url)
+
+# AM - url for the current location: this was just to get it to work on my system.
+urlCurrentISS = url +"?lat="+str(lat)+"&lon="+str(lon)
+response = urllib.request.urlopen(urlCurrentISS)
 result = json.loads(response.read())
 over = result['response'][1]['risetime']
+
+# AM - Rocky Hill variables
+latRH = 41.0000
+lonRH = -71.0000
+urlRH = url + "?lat=" + str(latRH) + "&lon=" + str(lonRH)
+responseRH = urllib.request.urlopen(urlRH)
+resultRH = json.loads(responseRH.read())
+timeOverRH = resultRH['response'][1]['risetime']
+
 style = ('Gotham', 8, 'italic')
+print("Rocky Hill flyover: ", time.ctime(timeOverRH))
 print(time.ctime(over))
 turtle.penup()
 turtle.goto(-170, -80)
 turtle.color("white")
 turtle.write(time.ctime(over), font=style)
+
+turtle.penup()
+turtle.goto(-170, -70)
+turtle.color("white")
+turtle.write("Next Rocky Hill Fly-Over: ", " test", font=style)
+
 turtle.mainloop()
