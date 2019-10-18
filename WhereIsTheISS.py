@@ -27,7 +27,7 @@ screen.setup(1080, 480)
 screen.setworldcoordinates(-180, -90, 180, 90)
 
 # AM changed to reflect local path of map and satellite images
-screen.bgpic('img/map.gif')
+screen.bgpic('/Users/alexmurphy/GitHub/Personal/BenProjects/WheresTheISS/img/EqualProjection.gif')
 # screen.bgpic('/home/neb/PythonProjects/WheresTheISS/map.gif')
 screen.register_shape('img/satellite-sml.gif')
 # screen.register_shape('/home/neb/PythonProjects/WheresTheISS/satellite-sml.gif')
@@ -50,6 +50,7 @@ urlCurrentISS = url +"?lat="+str(lat)+"&lon="+str(lon)
 response = urllib.request.urlopen(urlCurrentISS)
 result = json.loads(response.read())
 over = result['response'][1]['risetime']
+currLocationPrintout = "Currently at " + str(lat) + " lat, " + str(lon) + "\nTime is " + time.ctime(over) + " local time"
 
 # AM - Rocky Hill variables
 latRH = 41.0000
@@ -58,18 +59,26 @@ urlRH = url + "?lat=" + str(latRH) + "&lon=" + str(lonRH)
 responseRH = urllib.request.urlopen(urlRH)
 resultRH = json.loads(responseRH.read())
 timeOverRH = resultRH['response'][1]['risetime']
+rockyHillPrintout = "Next Rocky Hill Fly-Over: " + time.ctime(timeOverRH)
 
-style = ('Gotham', 8, 'italic')
 print("Rocky Hill flyover: ", time.ctime(timeOverRH))
 print(time.ctime(over))
-turtle.penup()
-turtle.goto(-170, -80)
-turtle.color("white")
-turtle.write(time.ctime(over), font=style)
+
+style = ('Gotham', 8, 'italic')
 
 turtle.penup()
+
+turtle.goto(lonRH, latRH)
+turtle.color("red")
+turtle.write("X")
+
 turtle.goto(-170, -70)
 turtle.color("white")
-turtle.write("Next Rocky Hill Fly-Over: ", " test", font=style)
+turtle.write(rockyHillPrintout, font=style)
+
+turtle.goto(-170, -80)
+turtle.color("white")
+turtle.write(currLocationPrintout, font=style)
+
 
 turtle.mainloop()
